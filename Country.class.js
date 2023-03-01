@@ -1,13 +1,13 @@
-import countries from './countries.json' assert {type: 'json'};
-// TODO Importer plus proprement parceque dans le sujet ils disent d'importer dans la fonction fill_db
-
 class Country {
+    static all_countries = [];
+
     constructor(
         alpha3Code,
         area,
-        borders = null,
+        borders,
         capital,
         continent,
+        nativeName,
         flags,
         names,
         population,
@@ -20,6 +20,7 @@ class Country {
         this.borders = borders;
         this.capital = capital;
         this.continent = continent;
+        this.nativeName = nativeName;
         this.flags = flags;
         this.names = names;
         this.population = population;
@@ -27,6 +28,7 @@ class Country {
         this.monnaies=codesMonnaies;
         this.langues=codesLangues;
         
+        Country.all_countries[this.alpha3Code] = this;
     }
 
     get toString() {
@@ -47,13 +49,39 @@ class Country {
             " - " +
             this.population +
             " - " +
-            this.topLevelDomain +
-            " - "
+            this.topLevelDomain
         );
     }
 
-    fill_db() {
-        
+    static fill_db() {
+
+        countries.forEach((country) => {
+            var currencies=[]
+            var languages=[]
+            currencies=country.currencies.map(curr => {
+                new Currency(curr.code,curr.name,curr.symbole);
+                return curr.code;
+            });
+            languages=country.languages.map(lang=>{
+                new Language(lang.iso639_2,lang.nom);
+                return lang.code;
+            });
+            new Country(
+                country.alpha3Code,
+                country.area,
+                (country.borders != undefined) ? country.borders : [],
+                country.capital,
+                country.continent,
+                country.nativeName,
+                country.flags,
+                country.translations,
+                country.population,
+                country.topLevelDomain,
+                currencies,
+                languages
+
+            );
+        });
     }
 
     getCurrencies(){
