@@ -1,5 +1,5 @@
 class Country {
-    static all_countries = [];
+    static all_countries = new Object();
 
     constructor(
         alpha3Code,

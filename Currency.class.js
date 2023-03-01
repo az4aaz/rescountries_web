@@ -3,7 +3,7 @@ class Currency{
     code;
     symbole;
 
-    static all_currencies=new Array();
+    static all_currencies=new Object();
 
     constructor(nom,code,symbole){
         this.nom=nom;
