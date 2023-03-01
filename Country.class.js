@@ -1,24 +1,29 @@
 class Country {
+    static all_countries = [];
+
     constructor(
         alpha3Code,
         area,
+        borders,
         capital,
         continent,
+        nativeName,
         flags,
         names,
         population,
-        topLevelDomain,
-        borders = null
+        topLevelDomain
     ) {
         this.alpha3Code = alpha3Code;
         this.area = area;
+        this.borders = borders;
         this.capital = capital;
         this.continent = continent;
+        this.nativeName = nativeName;
         this.flags = flags;
         this.names = names;
         this.population = population;
         this.topLevelDomain = topLevelDomain;
-        this.borders = borders;
+        Country.all_countries[this.alpha3Code] = this;
     }
 
     get toString() {
@@ -39,12 +44,24 @@ class Country {
             " - " +
             this.population +
             " - " +
-            this.topLevelDomain +
-            " - "
+            this.topLevelDomain
         );
     }
 
-    fill_db() {
-        
+    static fill_db() {
+        countries.forEach((country) => {
+            new Country(
+                country.alpha3Code,
+                country.area,
+                (country.borders != undefined) ? country.borders : [],
+                country.capital,
+                country.continent,
+                country.nativeName,
+                country.flags,
+                country.translations,
+                country.population,
+                country.topLevelDomain
+            );
+        });
     }
 }
