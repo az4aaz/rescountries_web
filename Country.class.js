@@ -1,6 +1,3 @@
-import countries from './countries.json' assert {type: 'json'};
-// TODO Importer plus proprement parceque dans le sujet ils disent d'importer dans la fonction fill_db
-
 class Country {
     constructor(
         alpha3Code,
@@ -48,6 +45,6 @@ class Country {
     }
 
     fill_db() {
-        
+
     }
 }
