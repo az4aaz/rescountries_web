@@ -11,7 +11,9 @@ class Country {
         flags,
         names,
         population,
-        topLevelDomain
+        topLevelDomain,
+        codesMonnaies,
+        codesLangues
     ) {
         this.alpha3Code = alpha3Code;
         this.area = area;
@@ -22,6 +24,9 @@ class Country {
         this.names = names;
         this.population = population;
         this.topLevelDomain = topLevelDomain;
+        this.monnaies=codesMonnaies;
+        this.langues=codesLangues;
+        
     }
 
     get toString() {
@@ -49,5 +54,24 @@ class Country {
 
     fill_db() {
         
+    }
+
+    getCurrencies(){
+        var self=this;
+        return Currency.all_currencies.values().filter(currency => self.monnaies.contains(currency.code))
+    }
+
+    getLanguages(){
+        var self=this;
+        return Language.all_languages.values().filter(lang => self.langues.contains(lang.code))
+    }
+
+    getPopDensity(){
+        return this.population / this.area;
+    }
+
+    getBorders(){
+        var self=this;
+        return Country.all_countries.values().filter(country => self.country.contains(country.code));
     }
 }
