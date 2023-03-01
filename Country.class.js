@@ -2,23 +2,23 @@ class Country {
     constructor(
         alpha3Code,
         area,
-        borders = null,
         capital,
         continent,
         flags,
         names,
         population,
-        topLevelDomain
+        topLevelDomain,
+        borders = null
     ) {
         this.alpha3Code = alpha3Code;
         this.area = area;
-        this.borders = borders;
         this.capital = capital;
         this.continent = continent;
         this.flags = flags;
         this.names = names;
         this.population = population;
         this.topLevelDomain = topLevelDomain;
+        this.borders = borders;
     }
 
     get toString() {
@@ -45,6 +45,6 @@ class Country {
     }
 
     fill_db() {
-
+        
     }
 }
