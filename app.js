@@ -1,2 +1,0 @@
-Country.fill_db()
-
