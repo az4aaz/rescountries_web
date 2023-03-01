@@ -9,10 +9,10 @@ class Currency{
         this.nom=nom;
         this.code=code;
         this.symbole=symbole;
-        if(Currency.all_currencies
+        if(Currency.all_currencies.keys()
             .some(curr => curr.code===code))
         {
-            Currency.push(this);
+            Currency.all_currencies[code]=this;
         }
     }
 

@@ -2,16 +2,16 @@ class Language{
     codeIso;
     nom;
 
-    static all_languages=new Array();
+    static all_languages=new Object();
 
     constructor(codeIso,nom){
         this.codeIso=codeIso;
         this.nom=nom;
 
-        if(Language.all_languages
+        if(Language.all_languages.keys()
             .some(lang => lang.codeIso===codeIso))
         {
-            Language.push(this);
+            Language.all_languages[codeIso]=this;
         }
     }
     

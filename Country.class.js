@@ -11,7 +11,9 @@ class Country {
         flags,
         names,
         population,
-        topLevelDomain
+        topLevelDomain,
+        codesMonnaies,
+        codesLangues
     ) {
         this.alpha3Code = alpha3Code;
         this.area = area;
@@ -23,6 +25,9 @@ class Country {
         this.names = names;
         this.population = population;
         this.topLevelDomain = topLevelDomain;
+        this.monnaies=codesMonnaies;
+        this.langues=codesLangues;
+        
         Country.all_countries[this.alpha3Code] = this;
     }
 
@@ -49,7 +54,18 @@ class Country {
     }
 
     static fill_db() {
+
         countries.forEach((country) => {
+            var currencies=[]
+            var languages=[]
+            currencies=country.currencies.map(curr => {
+                new Currency(curr.code,curr.name,curr.symbole);
+                return curr.code;
+            });
+            languages=country.languages.map(lang=>{
+                new Language(lang.iso639_2,lang.nom);
+                return lang.code;
+            });
             new Country(
                 country.alpha3Code,
                 country.area,
@@ -60,8 +76,30 @@ class Country {
                 country.flags,
                 country.translations,
                 country.population,
-                country.topLevelDomain
+                country.topLevelDomain,
+                currencies,
+                languages
+
             );
         });
+    }
+
+    getCurrencies(){
+        var self=this;
+        return Currency.all_currencies.values().filter(currency => self.monnaies.contains(currency.code))
+    }
+
+    getLanguages(){
+        var self=this;
+        return Language.all_languages.values().filter(lang => self.langues.contains(lang.code))
+    }
+
+    getPopDensity(){
+        return this.population / this.area;
+    }
+
+    getBorders(){
+        var self=this;
+        return Country.all_countries.values().filter(country => self.country.contains(country.code));
     }
 }
