@@ -1,13 +1,18 @@
 Country.fill_db()
-const countries_array = Country.all_countries;
+const countries_array = Object.values(Country.all_countries);
 
 // Pays dont au moins un pays est frontalier n'est pas dans le même continent
 function outstideTheContinent() {
     let lst_results = [];
     countries_array.forEach(country => {
-        let local_continent = country.continent;                                // Le continent du pays traité
-        if (country.getBorders().some(local_continent != border.continent)) {   // Si un des pays voisin n'est pas dans le même continent
-            lst_results.push(country);                                          // on ajoute le pays concerné à la liste finale
+        let local_continent = country.continent;                // Le continent du pays traité
+        if (
+            country.getBorders().some(
+                country_border => 
+                local_continent != country_border.continent     // Si un des pays voisin n'est pas dans le même continent
+                )
+            ) {
+            lst_results.push(country);                          // on ajoute le pays concerné à la liste finale
         }
     });
     return lst_results;
@@ -16,9 +21,20 @@ function outstideTheContinent() {
 // Pays (possibilité de plusieurs) ayant le plus grand nombre de voisins. Affichez aussi les voisins.
 function moreNeighbors() {
     let lst_results = [];
-    countries_array.forEach(country => {
-        country.getBorders();
-    })
+    let n_countries = countries_array.map(country => {
+        country.nb_borders = country.getBorders().length                                // Ajout de la propriété nb_borders à chacun des pays
+        return country;
+    });
+    let max_borders = Math.max(...n_countries.map(n_country => n_country.nb_borders));  // Retourne le nombre de voisins max
+    lst_results = n_countries.filter(country => country.nb_borders == max_borders);     // On garder uniquement le/les max
+    return lst_results.map(max_country => {
+        return {
+            code : max_country.alpha3Code,
+            name : max_country.names["Français"],
+            border : max_country.getBorders(),
+            nb_borders : max_country.nb_borders
+        }
+    });
 }
 
 //Pays n'ayant aucun voisin
