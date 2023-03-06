@@ -73,7 +73,7 @@ class Country {
                 country.area,
                 (country.borders != undefined) ? country.borders : [],
                 country.capital,
-                country.subregion,
+                country.region,
                 country.nativeName,
                 country.flags['svg'],
                 country.translations,
