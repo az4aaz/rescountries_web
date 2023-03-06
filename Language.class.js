@@ -8,7 +8,7 @@ class Language{
         this.codeIso=codeIso;
         this.nom=nom;
 
-        if(Language.all_languages.keys()
+        if(!Object.keys(Language.all_languages)
             .some(lang => lang.codeIso===codeIso))
         {
             Language.all_languages[codeIso]=this;

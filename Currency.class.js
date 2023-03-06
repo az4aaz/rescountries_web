@@ -9,7 +9,7 @@ class Currency{
         this.nom=nom;
         this.code=code;
         this.symbole=symbole;
-        if(Currency.all_currencies.keys()
+        if(!Object.keys(Currency.all_currencies)
             .some(curr => curr.code===code))
         {
             Currency.all_currencies[code]=this;

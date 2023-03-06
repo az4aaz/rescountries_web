@@ -31,13 +31,13 @@ class Country {
         Country.all_countries[this.alpha3Code] = this;
     }
 
-    get toString() {
+    toString() {
         return (
             this.alpha3Code +
             " - " +
             this.area +
             " - " +
-            this.borders +
+            this.getBorders() +
             " - " +
             this.capital +
             " - " +
@@ -58,20 +58,22 @@ class Country {
         countries.forEach((country) => {
             var currencies=[]
             var languages=[]
-            currencies=country.currencies.map(curr => {
-                new Currency(curr.code,curr.name,curr.symbole);
+            console.log("1");
+            currencies=(country.currencies)?Array.from(country.currencies).map(curr => {
+                new Currency(curr.name,curr.code,curr.symbol);
                 return curr.code;
-            });
-            languages=country.languages.map(lang=>{
-                new Language(lang.iso639_2,lang.nom);
-                return lang.code;
-            });
-            new Country(
+            }) : [];
+            languages=(country.languages)?Array.from(country.languages).map(lang=>{
+                new Language(lang.iso639_2,lang.name);
+                return lang.iso639_2;
+            }) : [];
+   
+            let c = new Country(
                 country.alpha3Code,
                 country.area,
                 (country.borders != undefined) ? country.borders : [],
                 country.capital,
-                country.continent,
+                country.subregion,
                 country.nativeName,
                 country.flags,
                 country.translations,
@@ -81,25 +83,32 @@ class Country {
                 languages
 
             );
+               
+            console.info(c.toString());
         });
+
+        
     }
 
     getCurrencies(){
         var self=this;
-        return Currency.all_currencies.values().filter(currency => self.monnaies.contains(currency.code))
+        console.log(Currency.all_currencies);
+        //console.log(this.monnaies);
+        return Object.values(Currency.all_currencies).filter(currency => self.monnaies.includes(currency.code))
     }
 
     getLanguages(){
         var self=this;
-        return Language.all_languages.values().filter(lang => self.langues.contains(lang.code))
+        console.log(Language.all_languages);
+        return Object.values(Language.all_languages).filter(lang => self.langues.includes(lang.code))
     }
 
     getPopDensity(){
         return this.population / this.area;
-    }
+    }  
 
     getBorders(){
         var self=this;
-        return Country.all_countries.values().filter(country => self.country.contains(country.code));
+        return Object.values(Country.all_countries).filter(country => self.borders.includes(country.alpha3Code));
     }
 }
