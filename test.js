@@ -49,7 +49,26 @@ function moreLanguage() {
 
 //Pays ayant au moins un voisin parlant l'une de ses langues. Affichez aussi les pays voisins et les langues en question.
 function withCommonLanguage() {
-
+    let countries = Object.values(Country.all_countries);
+    return countries.filter(country => 
+        country.getBorders().some(neighbor => 
+            neighbor.langues.some( langue =>{
+                    if(country.langues.includes(langue)){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+                
+        ))
+    )
+    .map(country=>({
+        code : country.alpha3Code,
+        name : country.names["Français"],
+        border : country.getBorders(),
+        nb_borders : country.nb_borders
+    }));
+    
 }
 
 //Pays sans aucun voisin ayant au moins une de ses monnaies.

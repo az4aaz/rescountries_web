@@ -87,8 +87,9 @@ class Country {
                 languages
 
             );
+            console.log(c.getLanguages());
            
-            console.info(c.toString());
+      
         });
 
         
@@ -96,15 +97,12 @@ class Country {
 
     getCurrencies(){
         var self=this;
-        console.log(Currency.all_currencies);
-        //console.log(this.monnaies);
         return Object.values(Currency.all_currencies).filter(currency => self.monnaies.includes(currency.code))
     }
 
     getLanguages(){
         var self=this;
-        console.log(Language.all_languages);
-        return Object.values(Language.all_languages).filter(lang => self.langues.includes(lang.code))
+        return Object.values(Language.all_languages).filter(lang => self.langues.includes(lang.codeIso))
     }
 
     getPopDensity(){
