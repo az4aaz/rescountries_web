@@ -78,29 +78,57 @@ function moreLanguage() {
 //Pays ayant au moins un voisin parlant l'une de ses langues. Affichez aussi les pays voisins et les langues en question.
 function withCommonLanguage() {
     let countries = Object.values(Country.all_countries);
-    return countries.filter(country => 
-        country.getBorders().some(neighbor => 
-            neighbor.langues.some( langue =>{
-                    if(country.langues.includes(langue)){
-                        return true;
-                    }else{
-                        return false;
-                    }
+    retour=[];
+    for (const iterator of countries) {
+        countWithlangInCommon=[]
+        for(const border of iterator.getBorders()){
+            langInCommon=[];
+            for(const langue of border.langues){
+                if(iterator.langues.includes(langue)){
+                    langInCommon.push(langue);
                 }
-                
-        ))
-    )
-    .map(country=>({
-        code : country.alpha3Code,
-        name : country.names["Français"],
-        border : country.getBorders(),
-        nb_borders : country.nb_borders
-    }));
+            }
+            if(langInCommon.length > 0){
+                  countWithlangInCommon.push({
+                    voisins: border,
+                    langues: langInCommon
+                })
+            }
+        }
+        if(countWithlangInCommon.length > 0){
+            retour.push({
+                pays: iterator,
+                neighboorWithlangInCommon: countWithlangInCommon
+            })
+        }
+    }
+    return retour;
     
 }
 
 //Pays sans aucun voisin ayant au moins une de ses monnaies.
 function withoutCommonCurrency() {
+    let countries = Object.values(Country.all_countries);
+    retour=[];
+    for (const iterator of countries) {
+        countWithoutCommonCurr=[]
+        for(const border of iterator.getBorders()){
+            currInCommon=[];
+            if(!border.monnaies.some( monnaie =>
+                iterator.monnaies.includes(monnaie)
+            ))
+            {
+                countWithoutCommonCurr.push(border)
+            }
+        }
+        if(countWithoutCommonCurr.length > 0){
+            retour.push({
+                pays: iterator,
+                neighboorWithoutCommonCurr: countWithoutCommonCurr
+            })
+        }
+    }
+    return retour;
 
 }
 
