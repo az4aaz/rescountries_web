@@ -8,7 +8,7 @@ class Country {
         capital,
         continent,
         nativeName,
-        flags,
+        flag,
         names,
         population,
         topLevelDomain,
@@ -21,7 +21,7 @@ class Country {
         this.capital = capital;
         this.continent = continent;
         this.nativeName = nativeName;
-        this.flags = flags;
+        this.flag = flag;
         this.names = names;
         this.population = population;
         this.topLevelDomain = topLevelDomain;
@@ -37,15 +37,15 @@ class Country {
             " - " +
             this.area +
             " - " +
-            this.getBorders() +
+            this.borders +
             " - " +
             this.capital +
             " - " +
             this.continent +
             " - " +
-            this.flags +
+            this.flag +
             " - " +
-            this.names +
+            Array.from(this.names) +
             " - " +
             this.population +
             " - " +
@@ -75,7 +75,7 @@ class Country {
                 country.capital,
                 country.subregion,
                 country.nativeName,
-                country.flags,
+                country.flags['svg'],
                 country.translations,
                 country.population,
                 country.topLevelDomain,
@@ -83,7 +83,7 @@ class Country {
                 languages
 
             );
-               
+            console.info(c.nativeName);
             console.info(c.toString());
         });
 
