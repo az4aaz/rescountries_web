@@ -45,7 +45,7 @@ class Country {
             " - " +
             this.flag +
             " - " +
-            Array.from(this.names) +
+            Object.values(this.names) +
             " - " +
             this.population +
             " - " +
@@ -76,14 +76,18 @@ class Country {
                 country.region,
                 country.nativeName,
                 country.flags['svg'],
-                country.translations,
+                {"Français": country.translations.fr?country.translations.fr:"",
+                "Anglais": country.translations.br?country.translations.br:"",
+                "Allemand": country.translations.de?country.translations.de:"",
+                "Espagnol": country.translations.es?country.translations.es:"",
+                "Italie": country.translations.it?country.translations.it:""},
                 country.population,
                 country.topLevelDomain,
                 currencies,
                 languages
 
             );
-            console.info(c.nativeName);
+           
             console.info(c.toString());
         });
 
