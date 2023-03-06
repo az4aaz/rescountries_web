@@ -22,7 +22,7 @@ function outstideTheContinent() {
 function moreNeighbors() {
     let lst_results = [];
     let n_countries = countries_array.map(country => {
-        country.nb_borders = country.getBorders().length                                // Ajout de la propriété nb_borders à chacun des pays
+        country.nb_borders = country.getBorders().length;                                // Ajout de la propriété nb_borders à chacun des pays
         return country;
     });
     let max_borders = Math.max(...n_countries.map(n_country => n_country.nb_borders));  // Retourne le nombre de voisins max
@@ -39,12 +39,40 @@ function moreNeighbors() {
 
 //Pays n'ayant aucun voisin
 function neighborless() {
-
+    let lst_results = [];
+    let n_countries = countries_array.map(country => {
+        country.nb_borders = country.getBorders().length;                                // Ajout de la propriété nb_borders à chacun des pays
+        return country;
+    });
+    lst_results = n_countries.filter(country => country.nb_borders == 0);     // On uniquement ceux qui n'ont pas de pays voisins
+    return lst_results.map(country => {
+        return {
+            code : country.alpha3Code,
+            name : country.names["Français"],
+            border : country.getBorders(),
+            nb_borders : country.nb_borders
+        }
+    });
 }
 
 // Pays (possibilité de plusieurs) parlant le plus de langues. Affichez aussi les langues.
 function moreLanguage() {
-
+    let lst_results = [];
+    let n_countries = countries_array.map(country => {
+        country.nb_languages = country.getLanguages().length;                                // Ajout de la propriété nb_borders à chacun des pays
+        return country;
+    });
+    let max_languages = Math.max(...n_countries.map(n_country => n_country.nb_languages));  // Retourne le nombre de voisins max
+    console.log(max_languages);
+    lst_results = n_countries.filter(country => country.nb_languages == max_languages);     // On garder uniquement le/les max
+    return lst_results.map(max_country => {
+        return {
+            code : max_country.alpha3Code,
+            name : max_country.names["Français"],
+            languages : max_country.getLanguages(),
+            nb_languages : max_country.nb_languages
+        }
+    });
 }
 
 //Pays ayant au moins un voisin parlant l'une de ses langues. Affichez aussi les pays voisins et les langues en question.

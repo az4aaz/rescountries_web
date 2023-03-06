@@ -87,7 +87,7 @@ class Country {
                 languages
 
             );
-            console.log(c.getLanguages());
+            
            
       
         });
