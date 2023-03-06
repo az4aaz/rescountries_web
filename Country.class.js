@@ -87,7 +87,6 @@ class Country {
                 languages
 
             );
-           
             console.info(c.toString());
         });
 
@@ -103,7 +102,7 @@ class Country {
 
     getLanguages(){
         var self=this;
-        console.log(Language.all_languages);
+        //console.log(Language.all_languages);
         return Object.values(Language.all_languages).filter(lang => self.langues.includes(lang.code))
     }
 
