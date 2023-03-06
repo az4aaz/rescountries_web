@@ -59,11 +59,10 @@ function neighborless() {
 function moreLanguage() {
     let lst_results = [];
     let n_countries = countries_array.map(country => {
-        country.nb_languages = country.getLanguages().length;                                // Ajout de la propriété nb_borders à chacun des pays
+        country.nb_languages = country.getLanguages().length;                                // Ajout de la propriété nb_languages à chacun des pays
         return country;
     });
-    let max_languages = Math.max(...n_countries.map(n_country => n_country.nb_languages));  // Retourne le nombre de voisins max
-    console.log(max_languages);
+    let max_languages = Math.max(...n_countries.map(n_country => n_country.nb_languages));  // Retourne le nombre de langues max
     lst_results = n_countries.filter(country => country.nb_languages == max_languages);     // On garder uniquement le/les max
     return lst_results.map(max_country => {
         return {
@@ -106,16 +105,46 @@ function withoutCommonCurrency() {
 
 //Pays triés par ordre décroissant de densité de population.
 function sortingDecreasingDensity() {
-
+    let lst_results = countries_array.sort((countryA, countryB) => {return countryB.getPopDensity() - countryA.getPopDensity();});
+    return lst_results;
 }
 
 //Pays ayant plusieurs Top Level Domains Internet
 function moreTopLevelDomains() {
+    let lst_results = [];
+    let n_countries = countries_array.map(country => {
+        country.nb_level = country.topLevelDomain.length;                                // Ajout de la propriété nb_languages à chacun des pays
+        return country;
+    });
+    lst_results = n_countries.filter(country => country.nb_level > 1);     // On garder uniquement le/les max
+    return lst_results.map(max_level => {
+        return {
+            code : max_level.alpha3Code,
+            name : max_level.names["Français"],
+            top_level_domains : max_level.topLevelDomain,
+            nb_level : max_level.nb_level
+        }
+    });
+}
 
+// Fonction recursive pour verylongtrip
+function recurVeryLongTrip(pays, paths = [], path = []) {
+    path.push(pays.alpha3Code);
+    pays.getBorders().filter(border => !(path.includes(border.alpha3Code))).forEach(border => {
+        paths.push(recurVeryLongTrip(border, paths, [...path]));
+    });
+    return path;
+}
+
+function findCountryByName(nom_pays) {
+    return countries_array.find(pays => pays.names["Français"] == nom_pays);
 }
 
 //listez tous les pays que l'on peut visiter en passant de l'un à l'autre. Evidemment, seuls les pays frontaliers sont accessibles depuis un pays donné.
 // Paramètre d'entrée : nom_pays
-function veryLongTrip() {
-
+function veryLongTrip(nom_pays) {
+    let pays_depart = findCountryByName(nom_pays);
+    var paths = [];
+    recurVeryLongTrip(pays_depart, paths);
+    return paths;
 }
