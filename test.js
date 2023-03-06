@@ -1,13 +1,24 @@
 Country.fill_db()
+const countries_array = Country.all_countries;
 
 // Pays dont au moins un pays est frontalier n'est pas dans le même continent
 function outstideTheContinent() {
-    
+    let lst_results = [];
+    countries_array.forEach(country => {
+        let local_continent = country.continent;                                // Le continent du pays traité
+        if (country.getBorders().some(local_continent != border.continent)) {   // Si un des pays voisin n'est pas dans le même continent
+            lst_results.push(country);                                          // on ajoute le pays concerné à la liste finale
+        }
+    });
+    return lst_results;
 }
 
 // Pays (possibilité de plusieurs) ayant le plus grand nombre de voisins. Affichez aussi les voisins.
 function moreNeighbors() {
-
+    let lst_results = [];
+    countries_array.forEach(country => {
+        country.getBorders();
+    })
 }
 
 //Pays n'ayant aucun voisin
