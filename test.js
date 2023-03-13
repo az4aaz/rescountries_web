@@ -113,8 +113,8 @@ function withoutCommonCurrency() {
         countWithoutCommonCurr=[]
         for(const border of iterator.getBorders()){
             currInCommon=[];
-            if(!border.monnaies.some( monnaie =>
-                iterator.monnaies.includes(monnaie)
+            if(border.monnaies.every( monnaie =>
+                !(iterator.monnaies.includes(monnaie))
             ))
             {
                 countWithoutCommonCurr.push(border)
