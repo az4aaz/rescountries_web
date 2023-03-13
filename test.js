@@ -88,7 +88,7 @@ function withCommonLanguage() {
                 }
             }
             if(langInCommon.length > 0){
-                  countWithlangInCommon.push({
+                    countWithlangInCommon.push({
                     voisins: border,
                     langues: langInCommon
                 })
@@ -156,12 +156,14 @@ function moreTopLevelDomains() {
 }
 
 // Fonction recursive pour verylongtrip
-function recurVeryLongTrip(pays, paths = [], path = []) {
+function recurVeryLongTrip(pays,path = []) {
     path.push(pays.alpha3Code);
-    pays.getBorders().filter(border => !(path.includes(border.alpha3Code))).forEach(border => {
-        paths.push(recurVeryLongTrip(border, paths, [...path]));
+   
+    let borderNotInPath = pays.getBorders().filter(border => !(path.includes(border.alpha3Code)));
+    borderNotInPath.forEach(border => {
+        recurVeryLongTrip(border, path);
     });
-    return path;
+    
 }
 
 function findCountryByName(nom_pays) {
@@ -172,7 +174,7 @@ function findCountryByName(nom_pays) {
 // Paramètre d'entrée : nom_pays
 function veryLongTrip(nom_pays) {
     let pays_depart = findCountryByName(nom_pays);
-    var paths = [];
+    let paths = [];
     recurVeryLongTrip(pays_depart, paths);
     return paths;
 }
