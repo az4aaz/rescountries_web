@@ -109,27 +109,20 @@ function withCommonLanguage() {
 function withoutCommonCurrency() {
     let countries = Object.values(Country.all_countries);
     retour=[];
-    for (const iterator of countries) {
-        countWithoutCommonCurr=[]
-        for(const border of iterator.getBorders()){
-            currInCommon=[];
-            if(border.monnaies.every( monnaie =>
-                !(iterator.monnaies.includes(monnaie))
-            ))
-            {
-                countWithoutCommonCurr.push(border)
-            }
-        }
-        if(countWithoutCommonCurr.length > 0){
-            retour.push({
-                pays: iterator,
-                neighboorWithoutCommonCurr: countWithoutCommonCurr
-            })
-        }
-    }
+    retour =countries.filter( country => 
+            
+        !country.getBorders().some(border => 
+            border.monnaies.some( monnaie => 
+                country.monnaies.includes(monnaie)
+            )
+        )
+        
+    );
+
     return retour;
 
 }
+
 
 //Pays triés par ordre décroissant de densité de population.
 function sortingDecreasingDensity() {
@@ -157,7 +150,10 @@ function moreTopLevelDomains() {
 
 // Fonction recursive pour verylongtrip
 function recurVeryLongTrip(pays,path = []) {
-    path.push(pays.alpha3Code);
+    if(!path.includes(pays.alpha3Code)){
+        path.push(pays.alpha3Code);
+    }
+   
    
     let borderNotInPath = pays.getBorders().filter(border => !(path.includes(border.alpha3Code)));
     borderNotInPath.forEach(border => {
@@ -176,5 +172,13 @@ function veryLongTrip(nom_pays) {
     let pays_depart = findCountryByName(nom_pays);
     let paths = [];
     recurVeryLongTrip(pays_depart, paths);
-    return paths;
+    return paths.sort();
 }
+
+var calcul = countries_array.map( c => {
+    path=[]
+    recurVeryLongTrip(c,path)
+    return {pays: c,atteignable: path}
+})
+max_possible = calcul.reduce((a,b) => a.atteignable.length>b.atteignable.length?a:b);
+pays_max= calcul.filter( a => a.atteignable.length==max_possible.atteignable.length);
